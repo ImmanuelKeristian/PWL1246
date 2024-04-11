@@ -1,5 +1,5 @@
 Repository untuk Tugas Pembelajaran Web Lanjut
-2272012 - Christian Adriel (2272012maranatha)
+2272012 - Christian Adriel (2272012ChristianAdriel)
 2272046 - Immanuel Christian (ImmanuelKeristian)
 
 Tugas detail progres dikirim sesuai minggu menggunakan branch
