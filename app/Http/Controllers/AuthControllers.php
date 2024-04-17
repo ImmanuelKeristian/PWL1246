@@ -17,11 +17,17 @@ class AuthControllers extends Controller
 
     public function registerPost(Request $request)
     {
+        $validatedData = $request->validate([
+            'namaUser' => 'required|string|max:255',
+            'emailUser' => 'required|email|unique:users|max:255',
+            'password' => 'required|string|min:8',
+        ]);
+
         $user = new User();
  
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
+        $user->name = $validatedData['namaUser'];
+        $user->email = $validatedData['emailUser'];
+        $user->password = Hash::make($validatedData['password']);
  
         $user->save();
  
@@ -36,7 +42,7 @@ class AuthControllers extends Controller
     public function loginPost(Request $request)
     {
         $credetials = [
-            'email' => $request->email,
+            'emailUser' => $request->email,
             'password' => $request->password,
         ];
  
