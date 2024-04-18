@@ -27,7 +27,7 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email'],
+            'emailUser' => ['required', 'string', 'emailUser'],
             'password' => ['required', 'string'],
         ];
     }
@@ -41,11 +41,23 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-            RateLimiter::hit($this->throttleKey());
+        $credentials = $this->only('email', 'password');
+        $remember = $this->filled('remember');
 
+        if (! Auth::attempt($credentials, $remember)) {
+            $this->incrementLoginAttempts($credentials['email']);
+            
+            $message = trans('auth.failed');
+            
+            if (!RateLimiter::tooManyAttempts($this->throttleKey($credentials['email']), 5)) {
+                $message = trans('auth.failed') . ' ' . trans('auth.throttle', [
+                    'seconds' => RateLimiter::availableIn($this->throttleKey($credentials['email'])),
+                    'minutes' => ceil(RateLimiter::availableIn($this->throttleKey($credentials['email'])) / 60),
+                ]);
+            }
+            
             throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
+                'email' => [$message],
             ]);
         }
 
@@ -59,27 +71,42 @@ class LoginRequest extends FormRequest
      */
     public function ensureIsNotRateLimited(): void
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+        $email = $this->input('email');
+        $throttleKey = $this->throttleKey($email);
+
+        if (! RateLimiter::tooManyAttempts($throttleKey, 5)) {
             return;
         }
 
         event(new Lockout($this));
 
-        $seconds = RateLimiter::availableIn($this->throttleKey());
+        $seconds = RateLimiter::availableIn($throttleKey);
 
         throw ValidationException::withMessages([
-            'email' => trans('auth.throttle', [
-                'seconds' => $seconds,
-                'minutes' => ceil($seconds / 60),
-            ]),
+            'email' => [trans('auth.throttle', ['seconds' => $seconds, 'minutes' => ceil($seconds / 60)])],
         ]);
     }
 
-    /**
+       /**
      * Get the rate limiting throttle key for the request.
+     *
+     * @param string $email
+     * @return string
      */
-    public function throttleKey(): string
+    public function throttleKey(string $email): string
     {
-        return Str::transliterate(Str::lower($this->string('email')).'|'.$this->ip());
+        return Str::lower($email) . '|' . $this->ip();
     }
+
+    /**
+     * Increment the login attempts for the user.
+     *
+     * @param string $email
+     * @return void
+     */
+    protected function incrementLoginAttempts(string $email): void
+    {
+        RateLimiter::hit($this->throttleKey($email));
+    }
+
 }

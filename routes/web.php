@@ -1,8 +1,7 @@
 <?php
 
-use App\Http\Controllers\KartuKeluargaController;
-use App\Http\Controllers\PendudukController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SesiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,30 +15,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return redirect(route('login'));
+// Route::get('/', function () {
+//     return redirect(route('login'));
+// });
+
+Route::middleware(['guest'])->group(function() {
+    Route::get('/', [SesiController::class, 'index'])->name('auth.login');
+    Route::post('/', [SesiController::class, 'login']);
+});
+
+Route::get('/home', function(){
+    return redirect('/admin');
+});
+
+Route::middleware(['auth'])->group(function(){
+    Route::get('/admin', [AdminController::class, 'admin'])->middleware('userAkses:admin');
+    Route::get('/admin/murid', [AdminController::class, 'murid'])->middleware('userAkses:murid');
+    Route::get('/admin.programstudi', [AdminController::class, 'programstudi'])->middleware('userAkses:programstudi');
+    Route::get('/logout', [SesiController::class, 'logout']);
 });
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [\App\Http\Controllers\ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-Route::get('/about', function(){
-    return view('about');
-})->name('route-about');
-
-Route::get('/form', [\App\Http\Controllers\PageController::class, 'create'])->name('route-form');
 
 require __DIR__.'/auth.php';
- 
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('/home', [\App\Http\Controllers\HomeControllers::class, 'index']);
-    Route::delete('/logout', [\App\Http\Controllers\AuthControllers::class, 'logout'])->name('logout');
-});
