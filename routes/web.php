@@ -30,8 +30,8 @@ Route::get('/home', function(){
 
 Route::middleware(['auth'])->group(function(){
     Route::get('/admin', [AdminController::class, 'admin'])->middleware('userAkses:admin');
-    Route::get('/admin/murid', [AdminController::class, 'murid'])->middleware('userAkses:murid');
-    Route::get('/admin.programstudi', [AdminController::class, 'programstudi'])->middleware('userAkses:programstudi');
+    Route::get('/admin/student', [AdminController::class, 'student'])->middleware('userAkses:student');
+    Route::get('/admin/program', [AdminController::class, 'program'])->middleware('userAkses:program');
     Route::get('/logout', [SesiController::class, 'logout']);
 });
 

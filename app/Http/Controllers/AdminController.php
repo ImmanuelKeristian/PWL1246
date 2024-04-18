@@ -21,14 +21,14 @@ class AdminController extends Controller
         echo "<a href=logout>Log Out </a>";
     }
 
-    function murid()
+    function student()
     {
         echo "Selamat datang";
         echo "<h1>". Auth::user()->nama ."</h1>";
         echo "<a href=logout>Log Out </a>";
     }
 
-    function programstudi()
+    function program()
     {
         echo "Selamat datang";
         echo "<h1>". Auth::user()->nama ."</h1>";
