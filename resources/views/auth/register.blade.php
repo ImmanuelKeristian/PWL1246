@@ -29,44 +29,46 @@
                     <h1 class="card-title">Register</h1>
                 </div>
                 <div class="card-body">
-                    @if(Session::has('success'))
-                        <div class="alert alert-success" role="alert">
-                            {{ Session::get('success') }}
-                        </div>
-                    @endif
-                    <form action="{{ route('register') }}" method="POST">
+                    <form action="{{ route('register-proses') }}" method="POST">
                         @csrf
                         <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
-                            <input type="text" name="name" class="form-control" id="name" placeholder="John Doe" required>
+                            <label for="id" class="form-label">NRP</label>
+                            <input type="text" name="id" value="{{ old('id')}}" class="form-control" id="id" placeholder="NRP" required>
                         </div>
+                        @error('id')
+                            <small>{{ $message }}</small>
+                        @enderror
+                        <div class="mb-3">
+                            <label for="nama" class="form-label">Name</label>
+                            <input type="text" name="nama" value="{{ old('nama')}}" class="form-control" id="nama" placeholder="John Doe" required>
+                        </div>
+                        @error('nama')
+                            <small>{{ $message }}</small>
+                        @enderror
                         <div class="mb-3">
                             <label for="email" class="form-label">Email address</label>
-                            <input type="email" name="email" class="form-control" id="email" placeholder="name@example.com" required>
+                            <input type="email" name="email" value="{{ old('email')}}" class="form-control" id="email" placeholder="name@example.com" required>
                         </div>
+                        @error('email')
+                            <small>{{ $message }}</small>
+                        @enderror
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
                             <input type="password" name="password" class="form-control" id="password" required>
                         </div>
+                        @error('password')
+                            <small>{{ $message }}</small>
+                        @enderror
                         <div class="mb-3">
-                            <label for="password_confirmation" :value="__('Confirm Password')">Confirm Password</label>
-                            <input id="password_confirmation" class="form-control"
-                                            type="password"
-                                            name="password_confirmation" required >
-                        </div>
-
-                        <div class="mb-3">
-                            <input type="radio" id="student" name="role" value="Student">
-                            <label for="student">Student</label><br>
-                            <input type="radio" id="Admin" name="role" value="Admin">
-                            <label for="Admin">Admin</label>
+                            <label for="password_confirmation">Confirm Password</label>
+                            <input id="password_confirmation" class="form-control" type="password" name="password_confirmation" required>
                         </div>
                         <div class="mb-3">
                             <div class="d-grid">
                                 <button class="btn btn-primary">Register</button>
                             </div>
                         </div>
-
+                    
                         <div class="flex items-center justify-end mt-4">
                             <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
                                 {{ __('Already registered?') }}

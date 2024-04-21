@@ -1,8 +1,11 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\SesiController;
+use App\Http\Controllers\AkunController;
+use App\Http\Controllers\PolController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MatKulController;
 use Illuminate\Support\Facades\Route;
+use Whoops\Run;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,22 +23,65 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::middleware(['guest'])->group(function() {
-    Route::get('/', [SesiController::class, 'index'])->name('auth.login');
-    Route::post('/', [SesiController::class, 'login']);
+    Route::get('/', [LoginController::class, 'index'])->name('auth.login');
+    Route::post('/login-proses', [LoginController::class, 'loginproses'])->name('login-proses');
 });
 
+Route::get('/register', [LoginController::class, 'register'])->name('register');
+Route::post('/register-proses', [LoginController::class, 'registerproses'])->name('register-proses');
+
+
 Route::get('/home', function(){
-    return redirect('/admin');
+    return redirect('/starter');
 });
 
 Route::middleware(['auth'])->group(function(){
-    Route::get('/admin', [AdminController::class, 'admin'])->middleware('userAkses:admin');
-    Route::get('/admin/student', [AdminController::class, 'student'])->middleware('userAkses:student');
-    Route::get('/admin/program', [AdminController::class, 'program'])->middleware('userAkses:program');
-    Route::get('/logout', [SesiController::class, 'logout']);
+    #Admiin
+    Route::prefix('Admin')->group(function () {
+        Route::get('/index', [AkunController::class, 'index'])->name('admin-index')->middleware('userAkses:Admin');
+        Route::get('/edit/{id}', [AkunController::class, 'edit'])->name('admin-edit')->middleware('userAkses:Admin');
+        Route::put('/update/{id}', [AkunController::class, 'update'])->name('admin-update')->middleware('userAkses:Admin');
+        Route::delete('/delete/{id}', [AkunController::class, 'delete'])->name('admin-delete')->middleware('userAkses:Admin');
+    });
+
+    # Prodi
+    Route::prefix('Prodi')->group(function () {
+        #Matkul
+        Route::get('/index', [MatKulController::class, 'index'])->name('mat-index')->middleware('userAkses:Prodi');
+        Route::get('/create', [MatKulController::class, 'create'])->name('mat-create')->middleware('userAkses:Prodi');
+        Route::post('/store', [MatKulController::class, 'store'])->name('mat-store')->middleware('userAkses:Prodi');
+        Route::get('/edit/{id}', [MatKulController::class, 'edit'])->name('mat-edit')->middleware('userAkses:Prodi');
+        Route::put('/update/{id}', [MatKulController::class, 'update'])->name('mat-update')->middleware('userAkses:Prodi');
+        Route::delete('/delete/{id}', [MatKulController::class, 'delete'])->name('mat-delete')->middleware('userAkses:Prodi');
+
+        #Poll
+        Route::get('/index', [PolController::class, 'index'])->name('pol-index')->middleware('userAkses:Prodi');
+        Route::get('/create', [PolController::class, 'create'])->name('pol-create')->middleware('userAkses:Prodi');
+        Route::post('/store', [PolController::class, 'store'])->name('pol-store')->middleware('userAkses:Prodi');
+        Route::get('/edit/{id}', [PolController::class, 'edit'])->name('pol-edit')->middleware('userAkses:Prodi');
+        Route::put('/update/{id}', [PolController::class, 'update'])->name('pol-update')->middleware('userAkses:Prodi');
+    });
+
+    Route::get('/index', [PolController::class, 'index'])->name('pol-index');
+    Route::get('/index', [MatKulController::class, 'index'])->name('mat-index');
+    Route::get('/logout', [LoginController::class, 'logout']);
 });
 
+// Route::middleware(['auth'])->group(function () {
+//     Route::get('/starter', function () {
+//         return view('starter');
+//     })->name('starter');
+// });
 
+// Route::middleware(['auth','admin'])->group(function(){
+//     Route::get('/admin-create', [AdminController::class, 'admin-create'])->name('admin-create');
+//     Route::get('/admin/student', [AdminController::class, 'student'])->middleware('userAkses:student');
+//     Route::get('/admin/program', [AdminController::class, 'program'])->middleware('userAkses:program');
+//     Route::get('/logout', [SesiController::class, 'logout']);
 
+//     Route::get('/user', [UserController::class, 'index'])->name('user-list');
+//     Route::get('/user/create', [UserController::class, 'create'])->name('user-create');
+//     Route::post('/user/create', [UserController::class, 'store'])->name('user-store');
+// });
 
 require __DIR__.'/auth.php';
