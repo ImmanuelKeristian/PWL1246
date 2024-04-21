@@ -11,7 +11,7 @@
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Edit</a></li>
+                            <li class="breadcrumb-item">Edit</li>
                             <li class="breadcrumb-item active">Polling Kuliah</li>
                         </ol>
                     </div><!-- /.col -->
@@ -21,7 +21,7 @@
         <!-- /.content-header -->
 
         <!-- Main content -->
-        <form action="{{route('pol-update', ['id' => $pols->idhasilPolling])}}" method="POST">
+        <form action="{{route('pol-update', ['id' => $pols->idpollingHasil])}}" method="POST">
             @csrf
             @method('PUT')
             <div class="card card-primary">
@@ -33,30 +33,9 @@
                 <form>
                   <div class="card-body">
                     <div class="form-group">
-                        <label for="exampleInputPassword1">Id course</label>
-                        <input type="string" name="codecourse" value="{{ $pols->idCourse }}" class="form-control" placeholder="Enter code">
-                        @error('codecourse')
-                            <small>{{ $message }}</small>
-                        @enderror
-                    </div>
-                      <div class="form-group">
-                        <label for="exampleInputPassword1">Nama Matkul</label>
-                        <input type="string" name="namacourse" value="{{ $pols->nameCourse }}" class="form-control" placeholder="Enter Matkul">
-                        @error('namacourse')
-                            <small>{{ $message }}</small>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">SKS</label>
-                        <input type="string" name="sks" value="{{ $pols->sks }}" class="form-control" placeholder="Enter sks">
-                        @error('sks')
-                            <small>{{ $message }}</small>
-                        @enderror
-                    </div>
-                    <div class="form-group">
                         <label for="exampleInputPassword1">Status</label>
-                        <input type="string" name="statuscourse" value="{{ $pols->statusCourse }}" class="form-control" placeholder="Open/Close">
-                        @error('statuscourse')
+                        <input type="string" name="statuspoll" value="{{ $pols->statusCourse }}" class="form-control" placeholder="Open/Close">
+                        @error('statuspoll')
                             <small>{{ $message }}</small>
                         @enderror
                     </div>

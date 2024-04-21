@@ -21,7 +21,7 @@
         <!-- /.content-header -->
 
         <!-- Main content -->
-        <form action="{{route('admin-update', ['id' => $matkul->idCourse])}}" method="POST">
+        <form action="{{route('mat-update', ['id' => $matkul->idCourse])}}" method="POST">
             @csrf
             @method('PUT')
             <div class="card card-primary">

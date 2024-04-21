@@ -24,9 +24,6 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="card p-4">
-                    <div class="card-header">
-                        <a href="{{ route('pol-create') }}" role="button" class="btn btn-success">Tambah Poll</a>
-                    </div>
                     <div class="card-body">
                         <table id="table-akun" class="table table-striped">
                             <thead>
@@ -66,38 +63,11 @@
                                     <td>{{ $pol->end_poll }}</td>
                                     <td>{{ $pol->statusPoll }}</td>
                                     <td>
-                                        @if(Auth::user()->role == 'Prodi')
-                                        <td>
-                                            <a href="{{route('pol-edit', ['id' => $pol->idpollingHasil])}}" class="btn btn-primary"><i class="fa fa-pen"> Edit</i></a>
-                                            <a data-toggle="modal" data-target="#modal-hapus{{$pol->idpollingHasil}}" class="btn btn-danger"><i class="fa fa-trash"> Hapus</i></a>
-                                        </td>
+                                        @if($pol->statusPoll == 'Open')
+                                            <a href="{{route('for-create', ['id' => $pol->idpollingHasil])}}" role="button" class="btn btn-primary">Ikut Poll</a>
                                         @endif
+                                    </td>
                                     </tr>
-                                    <div class="modal fade" id="modal-hapus{{$pol->idpollingHasil}}">
-                                        <div class="modal-dialog">
-                                          <div class="modal-content">
-                                            <div class="modal-header">
-                                              <h4 class="modal-title">Konfirmasi Hapus</h4>
-                                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                              </button>
-                                            </div>
-                                            <div class="modal-body">
-                                              <p>Tolong konfirmasi untuk penghapusan data Polling ke-{{$pol->idpollingHasil}}</p>
-                                            </div>
-                                            <div class="modal-footer justify-content-between">
-                                                <form action="{{route('pol-delete', ['id' => $pol->idpollingHasil])}}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-                                                <button type="submit" class="btn btn-primary">Hapus Data</button>
-                                                </form>
-                                            </div>
-                                          </div>
-                                          <!-- /.modal-content -->
-                                        </div>
-                                        <!-- /.modal-dialog -->
-                                      </div>
                                 @endforeach
                             </tbody>
                         </table>

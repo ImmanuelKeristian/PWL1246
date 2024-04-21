@@ -4,6 +4,7 @@ use App\Http\Controllers\AkunController;
 use App\Http\Controllers\PolController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MatKulController;
+use App\Http\Controllers\FormController;
 use Illuminate\Support\Facades\Route;
 use Whoops\Run;
 
@@ -47,12 +48,12 @@ Route::middleware(['auth'])->group(function(){
     # Prodi
     Route::prefix('Prodi')->group(function () {
         #Matkul
-        Route::get('/index', [MatKulController::class, 'index'])->name('mat-index')->middleware('userAkses:Prodi');
-        Route::get('/create', [MatKulController::class, 'create'])->name('mat-create')->middleware('userAkses:Prodi');
-        Route::post('/store', [MatKulController::class, 'store'])->name('mat-store')->middleware('userAkses:Prodi');
-        Route::get('/edit/{id}', [MatKulController::class, 'edit'])->name('mat-edit')->middleware('userAkses:Prodi');
-        Route::put('/update/{id}', [MatKulController::class, 'update'])->name('mat-update')->middleware('userAkses:Prodi');
-        Route::delete('/delete/{id}', [MatKulController::class, 'delete'])->name('mat-delete')->middleware('userAkses:Prodi');
+        Route::get('/indexz', [MatKulController::class, 'index'])->name('mat-index')->middleware('userAkses:Prodi');
+        Route::get('/createz', [MatKulController::class, 'create'])->name('mat-create')->middleware('userAkses:Prodi');
+        Route::post('/storez', [MatKulController::class, 'store'])->name('mat-store')->middleware('userAkses:Prodi');
+        Route::get('/editz/{id}', [MatKulController::class, 'edit'])->name('mat-edit')->middleware('userAkses:Prodi');
+        Route::put('/updatez/{id}', [MatKulController::class, 'update'])->name('mat-update')->middleware('userAkses:Prodi');
+        Route::delete('/deletez/{id}', [MatKulController::class, 'delete'])->name('mat-delete')->middleware('userAkses:Prodi');
 
         #Poll
         Route::get('/index', [PolController::class, 'index'])->name('pol-index')->middleware('userAkses:Prodi');
@@ -60,6 +61,13 @@ Route::middleware(['auth'])->group(function(){
         Route::post('/store', [PolController::class, 'store'])->name('pol-store')->middleware('userAkses:Prodi');
         Route::get('/edit/{id}', [PolController::class, 'edit'])->name('pol-edit')->middleware('userAkses:Prodi');
         Route::put('/update/{id}', [PolController::class, 'update'])->name('pol-update')->middleware('userAkses:Prodi');
+        Route::delete('/delete/{id}', [PolController::class, 'delete'])->name('pol-delete')->middleware('userAkses:Prodi');
+    });
+
+    Route::prefix('Student')->group(function () {
+        Route::get('/index', [FormController::class, 'index'])->name('for-index')->middleware('userAkses:Student');
+        Route::get('/create/{id}', [FormController::class, 'create'])->name('for-create')->middleware('userAkses:Student');
+        Route::post('/store', [FormController::class, 'store'])->name('for-store')->middleware('userAkses:Student');
     });
 
     Route::get('/index', [PolController::class, 'index'])->name('pol-index');

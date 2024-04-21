@@ -11,7 +11,7 @@
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Tambah</a></li>
+                            <li class="breadcrumb-item">Tambah</li>
                             <li class="breadcrumb-item active">Polling Kuliah</li>
                         </ol>
                     </div><!-- /.col -->
@@ -42,9 +42,8 @@
                         <label for="idCourse">Select Courses</label><br>
                         <div class="form-check form-check-inline">
                         @foreach($courses as $course)
-                            <ul><input class="form-check-input" type="checkbox" name="idcourse[]" id="course{{ $course->idCourse }}" value="{{ $course->idCourse }}">
+                            <input class="form-check-input" type="checkbox" name="idcourse[]" id="course{{ $course->idCourse }}" value="{{ $course->idCourse }}">
                             <label class="form-check-label" for="course{{ $course->idCourse }}">{{ $course->nameCourse }}</label><br>
-                            </ul>
                         @endforeach
                         </div>
                         @error('idcourse')

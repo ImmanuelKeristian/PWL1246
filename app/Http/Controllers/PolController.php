@@ -63,18 +63,26 @@ class PolController extends Controller
 
     public function update(Request $request, $id){
         $validator = Validator::make($request->all(), [
-            'totalpolling'  => 'required|int',
             'statuspoll'    => 'required|string',
         ])->validate();
     
         $pols = Polls::find($id);
     
-        $pols->sks = $request->sks;
-        $pols->statusPoll = $request->statuspoll;
+        $pols->statusPoll   = $request->statuspoll;
     
         $pols->save();
     
         return redirect()->route('pol-index');
     }
 
+    public function delete(Request $request,$id)
+    {
+        $pols = Polls::find($id);
+
+        if ($pols){
+            $pols->delete();
+        }
+
+        return redirect()->route('pol-index');
+    }
 }

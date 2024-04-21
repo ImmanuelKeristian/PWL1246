@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Polls extends Model
+class Form extends Model
 {
     use HasFactory;
 
-    protected $table = 'pollinghasil';
+    protected $table = 'courseselection';
 
         /**
      * The attributes that are mass assignable.
@@ -17,12 +17,9 @@ class Polls extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'idpollingHasil',
+        'idcourseSelection',
+        'idUser',
         'idCourse',
-        'totalPolling',
-        'start_poll',
-        'end_poll',
-        'statusPoll'
     ];
     
     public function course()
@@ -30,10 +27,10 @@ class Polls extends Model
         return $this->belongsTo(Matkul::class, 'idCourse');
     }
 
-    public function forms()
+    public function akun()
     {
-        return $this->hasMany(Form::class);
+        return $this->belongsTo(User::class, 'id');
     }
 
-    protected $primaryKey = 'idpollingHasil';
+    protected $primaryKey = 'idcourseSelection';
 }

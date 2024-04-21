@@ -24,9 +24,9 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="card p-4">
-                    @if(Auth::user()->role == 'Admin')
+                    @if(Auth::user()->role == 'Prodi')
                     <div class="card-header">
-                        <a href="{{ route('admin-create') }}" role="button" class="btn btn-success">Tambah Akun</a>
+                        <a href="{{ route('mat-create') }}" role="button" class="btn btn-success">Tambah Akun</a>
                     </div>
                     @endif
                     <div class="card-body">
@@ -48,9 +48,9 @@
                                     <td>{{ $mat->nameCourse }}</td>
                                     <td>{{ $mat->sks}}</td>
                                     <td>{{ $mat->statusCourse }}</td>
-                                    @if(Auth::user()->role == 'Admin')
+                                    @if(Auth::user()->role == 'Prodi')
                                     <td>
-                                        <a href="{{route('admin-edit', ['id' => $mat->idCourse])}}" class="btn btn-primary"><i class="fa fa-pen"> Edit</i></a>
+                                        <a href="{{route('mat-edit', ['id' => $mat->idCourse])}}" class="btn btn-primary"><i class="fa fa-pen"> Edit</i></a>
                                         <a data-toggle="modal" data-target="#modal-hapus{{$mat->idCourse}}" class="btn btn-danger"><i class="fa fa-trash"> Hapus</i></a>
                                     </td>
                                     @endif
@@ -68,7 +68,7 @@
                                           <p>Tolong konfirmasi untuk penghapusan data {{$mat->nameCourse}}</p>
                                         </div>
                                         <div class="modal-footer justify-content-between">
-                                            <form action="{{route('admin-delete', ['id' => $mat->idCourse])}}" method="POST">
+                                            <form action="{{route('mat-delete', ['id' => $mat->idCourse])}}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                             <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>

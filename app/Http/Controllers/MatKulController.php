@@ -35,7 +35,7 @@ class MatKulController extends Controller
 
         MatKul::create($matkul);
 
-        return redirect()->route('admin-index');
+        return redirect()->route('mat-index');
     }
 
     public function edit(Request $request, $id){
@@ -46,22 +46,22 @@ class MatKulController extends Controller
 
     public function update(Request $request, $id){
         $validator = Validator::make($request->all(), [
-            'codecourse' => 'required|string',
-            'namacourse' => 'required|string',
-            'sks' => 'required|int',
-            'statuscourse' => 'required|string'
+            'codecourse'    => 'required|string',
+            'namacourse'    => 'required|string',
+            'sks'           => 'required|int',
+            'statuscourse'  => 'required|string'
         ])->validate();
     
         $matkul = MatKul::find($id);
     
-        $matkul->codeCourse = $request->codecourse;
-        $matkul->nameCourse = $request->namacourse;
-        $matkul->sks = $request->sks;
-        $matkul->statusCourse = $request->statuscourse;
+        $matkul->codeCourse     = $request->codecourse;
+        $matkul->nameCourse     = $request->namacourse;
+        $matkul->sks            = $request->sks;
+        $matkul->statusCourse   = $request->statuscourse;
     
         $matkul->save();
     
-        return redirect()->route('admin-index');
+        return redirect()->route('mat-index');
     }
 
     public function delete(Request $request,$id)
@@ -72,6 +72,6 @@ class MatKulController extends Controller
             $matkul->delete();
         }
 
-        return redirect()->route('admin-index');
+        return redirect()->route('mat-index');
     }
 }
