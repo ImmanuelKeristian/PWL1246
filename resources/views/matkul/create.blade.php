@@ -21,7 +21,7 @@
         <!-- /.content-header -->
 
         <!-- Main content -->
-        <form action="{{route('admin-store')}}" method="POST">
+        <form action="{{route('mat-store')}}" method="POST">
             @csrf
             <div class="card card-primary">
                 <div class="card-header">
