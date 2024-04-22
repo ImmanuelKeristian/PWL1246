@@ -38,7 +38,7 @@ class AkunController extends Controller
         $akuns['id']        = $request->id;
         $akuns['nama']      = $request->nama;
         $akuns['email']     = $request->email;
-        $akuns['password']  = $request->password;
+        $akuns['password']  = Hash::make($request->password);
         $akuns['role']      = $request->role;
 
         User::create($akuns);
