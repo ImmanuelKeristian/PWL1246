@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="{{ route('profile') }}" class="brand-link">
         <span class="brand-text font-weight-light">Profile</span>
     </a>
 
@@ -12,7 +12,7 @@
                 <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div> --}}
             <div class="info">
-                    <a href="#" class="d-block">{{\Illuminate\Support\Facades\Auth::user()->nama}}</a>
+                    <a href="{{ route('for-main') }}" class="d-block">{{\Illuminate\Support\Facades\Auth::user()->nama}}</a>
             </div>
         </div>
 
@@ -27,11 +27,25 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('pol-index') }}" class="nav-link">
-                        <p>
-                            Polling
-                        </p>
-                    </a>
+                    @if(Auth::user()->role === 'Prodi')
+                        <a href="{{ route('pol-index') }}" class="nav-link">
+                            <p>
+                                Polling
+                            </p>
+                        </a>
+                    @elseif(Auth::user()->role === 'Admin')
+                        <a href="{{ route('admin-index') }}" class="nav-link"> <!-- Redirect to Admin index -->
+                            <p>
+                                Polling
+                            </p>
+                        </a>
+                    @elseif(Auth::user()->role === 'Student')
+                        <a href="{{ route('for-index') }}" class="nav-link"> <!-- Redirect to Student index -->
+                            <p>
+                                Polling
+                            </p>
+                        </a>
+                    @endif
                 </li>
                 @if(Auth::user()->role == 'Admin')
                     <li class="nav-item">

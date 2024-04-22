@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class AkunController extends Controller
@@ -12,6 +13,16 @@ class AkunController extends Controller
         $akuns = User::get();
 
         return view('akun.index', compact('akuns'));
+    }
+
+    public function profile(){
+        $akuns = User::get();
+
+        return view('user.index', compact('akuns'));
+    }
+
+    public function create(){
+        return view('akun.create');
     }
 
     public function store(Request $request){
@@ -75,6 +86,52 @@ class AkunController extends Controller
     }
 
     return redirect()->route('admin-index');
+
+    }
+
+    public function profedit($id){
+        $akuns = User::find($id);
+
+        if(!$akuns) {
+            return redirect()->back()->with('error', 'User tidak ada');
+        }
+
+        $akuns = User::where('id', $id)->get();
+        return view('user.edit', compact('akuns'));
+    }
+
+    public function profupdate(Request $request, $id){
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|int|unique:users',
+            'nama' => 'required|string',
+            'email' => 'required|email|unique:users',
+            'password' => 'nullable',
+        ])->validate();
+    
+        $akuns = User::find($id);
+    
+        $akuns->id         = $request->id;
+        $akuns->nama       = $request->nama;
+        $akuns->email      = $request->email;
+        if($request->password){
+            $data['password'] = Hash::make($request->password);
+        }
+    
+        $akuns->save();
+    
+        return redirect()->route('profile');
+    }
+
+    public function profdelete(Request $request, $id){
+
+
+    $akun = User::find($id);
+
+    if ($akun) {
+        $akun->delete();
+    }
+
+    return redirect()->route('profile');
 
     }
 }

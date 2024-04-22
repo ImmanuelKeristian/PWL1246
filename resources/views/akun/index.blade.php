@@ -11,8 +11,8 @@
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Role</a></li>
-                            <li class="breadcrumb-item active">Akun</li>
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active">Data Akun</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -23,6 +23,11 @@
         <!-- Main content -->
         <div class="content">
             <div class="container-fluid">
+                @if(Auth::user()->role == 'Admin')
+                <div class="card-header">
+                    <a href="{{ route('admin-create') }}" role="button" class="btn btn-success">Tambah Akun</a>
+                </div>
+                @endif
                 <div class="card p-4">
                     <div class="card-header">
                     </div>

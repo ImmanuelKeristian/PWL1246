@@ -7,12 +7,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Data Pengguna</h1>
+                        <h1 class="m-0">Data Akun</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Pengguna</li>
+                            <li class="breadcrumb-item"><a href="#">Profile</a></li>
+                            <li class="breadcrumb-item active">Akun</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -24,33 +24,58 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="card p-4">
-                    @if(\Illuminate\Support\Facades\Session::has('msg'))
-                        <div class="alert alert-danger">{{ Session::get('msg') }}
-                        </div>
-                    @endif
-
                     <div class="card-header">
-                        <a href="{{ route('user-create') }}" role="button" class="btn btn-success">Tambah User</a>
                     </div>
                     <div class="card-body">
-                        <table id="table-user" class="table table-striped">
+                        <table id="table-akun" class="table table-striped">
                             <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>NRP</th>
                                 <th>Nama</th>
                                 <th>Email</th>
-                                <th>Role</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($users as $user)
+                            @foreach($akuns as $akun)
                                 <tr>
-                                    <td>{{ $user->id }}</td>
-                                    <td>{{ $user->name }}</td>
-                                    <td>{{ $user->email }}</td>
-                                    <td>{{ $user->role }}</td>
-                                </tr>
+                                    @if($akun->id === auth()->user()->id)
+                                        <tr>
+                                            <td>{{ $akun->id }}</td>
+                                            <td>{{ $akun->nama }}</td>
+                                            <td>{{ $akun->email }}</td>                                       
+                                    @endif
                             @endforeach
+                                    <td>
+                                        <a href="{{route('profile-edit', ['id' => $akun->id])}}" class="btn btn-primary"><i class="fa fa-pen"> Edit</i></a>
+                                        <a data-toggle="modal" data-target="#modal-hapus{{$akun->id}}" class="btn btn-danger"><i class="fa fa-trash"> Hapus</i></a>
+                                    </td>
+                                </tr></tr>
+                                <div class="modal fade" id="modal-hapus{{$akun->id}}">
+                                    <div class="modal-dialog">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h4 class="modal-title">Konfirmasi Hapus</h4>
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                          </button>
+                                        </div>
+                                        <div class="modal-body">
+                                          <p>Tolong konfirmasi untuk penghapusan data {{$akun->nama}}</p>
+                                        </div>
+                                        <div class="modal-footer justify-content-between">
+                                            <form action="{{route('profile-delete', ['id' => $akun->id])}}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                                            <button type="submit" class="btn btn-primary">Hapus Data</button>
+                                            </form>
+                                        </div>
+                                      </div>
+                                      <!-- /.modal-content -->
+                                    </div>
+                                    <!-- /.modal-dialog -->
+                                  </div>
+                            
                             </tbody>
                         </table>
                     </div>
@@ -59,18 +84,23 @@
         </div>
         <!-- /.content -->
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @if($message = Session::get('error'))
+        <script>
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "{{$message}}",
+                });
+        </script>    
+    @endif
 @endsection
 
 @section('ExtraCSS')
-    <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('plugins/sweetalert2/sweetalert2.css') }}">
+
 @endsection
 
 @section('ExtraJS')
-    <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script>
-        $('#table-user').DataTable();
-    </script>
-    <script src="{{ asset('plugins/sweetalert2/sweetalert2.js') }}"></script>
+
 @endsection

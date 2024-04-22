@@ -5,6 +5,7 @@ use App\Http\Controllers\PolController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MatKulController;
 use App\Http\Controllers\FormController;
+use App\Http\Controllers\ProfController;
 use Illuminate\Support\Facades\Route;
 use Whoops\Run;
 
@@ -40,6 +41,8 @@ Route::middleware(['auth'])->group(function(){
     #Admiin
     Route::prefix('Admin')->group(function () {
         Route::get('/index', [AkunController::class, 'index'])->name('admin-index')->middleware('userAkses:Admin');
+        Route::get('/create', [AkunController::class, 'create'])->name('admin-create')->middleware('userAkses:Admin');
+        Route::post('/store', [AkunController::class, 'store'])->name('admin-store')->middleware('userAkses:Admin');
         Route::get('/edit/{id}', [AkunController::class, 'edit'])->name('admin-edit')->middleware('userAkses:Admin');
         Route::put('/update/{id}', [AkunController::class, 'update'])->name('admin-update')->middleware('userAkses:Admin');
         Route::delete('/delete/{id}', [AkunController::class, 'delete'])->name('admin-delete')->middleware('userAkses:Admin');
@@ -68,11 +71,17 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/index', [FormController::class, 'index'])->name('for-index')->middleware('userAkses:Student');
         Route::get('/create/{id}', [FormController::class, 'create'])->name('for-create')->middleware('userAkses:Student');
         Route::post('/store', [FormController::class, 'store'])->name('for-store')->middleware('userAkses:Student');
+        Route::get('/main', [FormController::class, 'main'])->name('for-main')->middleware('userAkses:Student');
     });
 
     Route::get('/index', [PolController::class, 'index'])->name('pol-index');
     Route::get('/index', [MatKulController::class, 'index'])->name('mat-index');
     Route::get('/logout', [LoginController::class, 'logout']);
+
+    Route::get('/profile', [AkunController::class, 'profile'])->name('profile');
+    Route::get('/edit/{id}', [AkunController::class, 'profedit'])->name('profile-edit');
+    Route::put('/update/{id}', [AkunController::class, 'profupdate'])->name('profile-update');
+    Route::delete('/delete/{id}', [AkunController::class, 'profdelete'])->name('profile-delete');
 });
 
 // Route::middleware(['auth'])->group(function () {

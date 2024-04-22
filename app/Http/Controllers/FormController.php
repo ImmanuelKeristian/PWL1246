@@ -50,27 +50,30 @@ class FormController extends Controller
         if ($totalSKS > $maxSKS) {
             return back()->withErrors(['idcourse' => 'Total SKS exceeds the maximum allowed ('.$maxSKS.').']);
         }
-        
-        $poll = Polls::find('idpollingHasil');
 
-        if ($poll) {
-            $poll->totalPolling += 1;
-            $poll->save();
-        }
+        Polls::where('idpollingHasil', $request->idpollingHasil)->increment('totalPolling');
 
         $user = Auth::user();
 
         $lastIdcourseSelection = Form::max('idcourseSelection') ?? 0;
 
         foreach ($request->idcourse as $courseId) {
-            $form = new Form();
-            $form->idcourseSelection = $lastIdcourseSelection + 1;
-            $form->idCourse = $courseId;
-            $form->idUser = $user->id;
-    
-            $poll->forms()->save($form);
+            $form = [
+                'idcourseSelection' => ++$lastIdcourseSelection,
+                'idUser' => $user->id,
+                'idCourse' => $courseId,
+            ];
+        
+            Form::create($form);
         }
     
-        return redirect()->route('for-index');
+        return redirect()->route('for-main');
+    }
+
+    public function main(){
+        $courses = Matkul::get();
+        $forms = Form::get();
+
+        return view('forum.main', compact('forms', 'courses'));
     }
 }

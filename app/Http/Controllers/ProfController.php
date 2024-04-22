@@ -8,10 +8,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class LoginController extends Controller
+class ProfController extends Controller
 {
     function index(){
-        return view('auth.login');
+        return view('akun.index');
     }
 
     public function loginproses(Request $request){
@@ -65,23 +65,13 @@ class LoginController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        if ($request->id == '00245') {
-            $akuns = [
-                'id'         => $request->id,
-                'nama'       => $request->nama,
-                'email'      => $request->email,
-                'password'   => Hash::make($request->password),
-                'role'       => 'Admin'
-            ];
-        } else {
-            $akuns = [
-                'id'         => $request->id,
-                'nama'       => $request->nama,
-                'email'      => $request->email,
-                'password'   => Hash::make($request->password),
-                'role'       => 'Student'
-            ];
-        }
+        $akuns = [
+            'id'         => $request->id,
+            'nama'       => $request->nama,
+            'email'      => $request->email,
+            'password'   => Hash::make($request->password),
+            'role'       => 'Student'
+        ];
 
         User::create($akuns);
 

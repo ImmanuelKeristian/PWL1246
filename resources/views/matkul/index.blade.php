@@ -26,7 +26,7 @@
                 <div class="card p-4">
                     @if(Auth::user()->role == 'Prodi')
                     <div class="card-header">
-                        <a href="{{ route('mat-create') }}" role="button" class="btn btn-success">Tambah Akun</a>
+                        <a href="{{ route('mat-create') }}" role="button" class="btn btn-success">Tambah Matkul</a>
                     </div>
                     @endif
                     <div class="card-body">
