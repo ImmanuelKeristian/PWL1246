@@ -65,6 +65,7 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/edit/{id}', [PolController::class, 'edit'])->name('pol-edit')->middleware('userAkses:Prodi');
         Route::put('/update/{id}', [PolController::class, 'update'])->name('pol-update')->middleware('userAkses:Prodi');
         Route::delete('/delete/{id}', [PolController::class, 'delete'])->name('pol-delete')->middleware('userAkses:Prodi');
+        Route::get('/main', [PolController::class, 'main'])->name('pol-main')->middleware('userAkses:Prodi');
     });
 
     Route::prefix('Student')->group(function () {

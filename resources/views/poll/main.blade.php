@@ -11,7 +11,7 @@
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Hasil</a></li>
+                            <li class="breadcrumb-item"><a href="#">Polling</a></li>
                             <li class="breadcrumb-item active">Hasil Polling</li>
                         </ol>
                     </div><!-- /.col -->
@@ -28,7 +28,7 @@
                         <table id="table-akun" class="table table-striped">
                             <thead>
                             <tr>
-                                <th>ID Matkul</th>
+                                <th>ID User</th>
                                 <th>Tanggal</th>
                             </tr>
                             </thead>
@@ -36,16 +36,16 @@
                             @foreach($forms as $form)
                                 <tr>
                                     <td>
-                                    @foreach($courses as $course)
-                                        @if($course->idCourse == $form->idCourse)
-                                            <ul><li>{{ $course->codeCourse }}|{{ $course->nameCourse }}</li></ul>
+                                    @foreach($users as $user)
+                                        @if($user->id == $form->idUser)
+                                            <ul><li>{{ $user->id }}|{{ $user->nama }}</li></ul>
                                         @endif
                                     @endforeach
                                     </td>
                                     <td>{{ $form->created_at }}</td>
                                     </tr>
                                 @endforeach
-                                <tr><a href="{{route('for-index')}}" class="btn btn-primary"><i class=""> Back</i></a></tr>
+                                <tr><a href="{{route('pol-index')}}" class="btn btn-primary"><i class=""> Back</i></a></tr>
                             </tbody>
                         </table>
                     </div>

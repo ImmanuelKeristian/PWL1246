@@ -70,6 +70,7 @@
                                         <td>
                                             <a href="{{route('pol-edit', ['id' => $pol->idpollingHasil])}}" class="btn btn-primary"><i class="fa fa-pen"> Edit</i></a>
                                             <a data-toggle="modal" data-target="#modal-hapus{{$pol->idpollingHasil}}" class="btn btn-danger"><i class="fa fa-trash"> Hapus</i></a>
+                                            <a href="{{route('pol-main', ['id' => $pol->idpollingHasil])}}" class="btn btn-primary"><i class=""> Rekap</i></a>
                                         </td>
                                         @endif
                                     </tr>

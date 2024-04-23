@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Form;
 use App\Models\Polls;
 use App\Models\Matkul;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -85,4 +87,12 @@ class PolController extends Controller
 
         return redirect()->route('pol-index');
     }
+
+    public function main(){
+        $users = User::get();
+        $forms = Form::get();
+
+        return view('poll.main', compact('forms', 'users'));
+    }
+    
 }

@@ -65,6 +65,7 @@
                                     <td>
                                         @if($pol->statusPoll == 'Open')
                                             <a href="{{route('for-create', ['id' => $pol->idpollingHasil])}}" role="button" class="btn btn-primary">Ikut Poll</a>
+                                            <a href="{{route('for-index')}}" role="button" class="btn btn-primary">Edit Poll</a>
                                         @endif
                                     </td>
                                     </tr>
